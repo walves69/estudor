@@ -1,0 +1,37 @@
+---
+title: "teste"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r}
+library(RColorBrewer)
+library(pheatmap)
+
+
+indi_1 <- read.csv("C:/r/9494_indicadores.csv", sep=",")
+indi_1 <- indi_1[order(indi_1$CD_DEPE_UOR),]
+row.names(indi_1) <- indi_1$NM_UOR_RDZ
+indi_2 <- indi_1[,3:15]
+indi_matrix <- data.matrix(indi_2)
+pheatmap(indi_matrix, display_numbers = T, cluster_row = FALSE, cluster_cols = FALSE, cellheight = 10, cellwidth = 30)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
