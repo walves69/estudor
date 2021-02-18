@@ -1,10 +1,10 @@
 ---
-title: "Untitled"
+title: "Introdução ao R"
 output: 
   html_document:
     theme: paper
     toc: true
-    toc_depth: 3
+    toc_depth: 5
 ---
 
 ```{r setup, include=FALSE}
@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Parte 1
 
-## Capítulo 2 - Operadores
+## Capítulo 2.2 - Operadores
 
 ### Operadores Aritiméticos
 
@@ -90,7 +90,7 @@ print(!x > 8)
 ```
 
 
-## Capítulo 3 - Variáveis
+## Capítulo 2.3 - Variáveis
 
 ### Criando Variáveis
 ```{r}
@@ -181,7 +181,7 @@ objects()
 
 
 
-## Capítulo 4 - Tipos de Dados
+## Capítulo 2.4 - Tipos de Dados
 
 
 
@@ -277,7 +277,7 @@ u | v
 
 
 
-## Capítulo 5 - Tipos de Dados Avaçados
+## Capítulo 2.5 - Tipos de Dados Avaçados
 
 
 ##### Vetor: possui 1 dimensão e 1 tipo de dado
@@ -350,7 +350,7 @@ objects()
 ```
 
 
-## Capítulo 6 - Vetores
+## Capítulo 2.6 - Vetores
 
 
 ##### Vetor de strings
@@ -449,9 +449,7 @@ v["Nome"]
 ```
 
 
-
-
-## Capítulo 7 - Matrizes
+## Capítulo 2.7 - Matrizes
 
 ##### Criando Matrizes
 
@@ -575,7 +573,7 @@ c(mat4)
 
 
 
-## Capítulo 8 - Listas
+## Capítulo 2.8 - Listas
 
 
 ##### Use list() para criar listas
@@ -711,7 +709,7 @@ lst = list(mat, vec)
 lst
 ```
 
-## Capítulo 9 - String
+## Capítulo 2.9 - String
 
 
 ##### String
@@ -829,7 +827,7 @@ grepl(pattern = padrao, x = string1)
 ```
 
 
-## Capítulo 10 - Dataframes
+## Capítulo 2.10 - Dataframes
 
 
 ##### Criando um dataframe vazio
@@ -975,5 +973,79 @@ hist(pacientes$Idade)
 dataset_final <- merge(pesq, pacientes)
 dataset_final
 ```
+
+#### Exercícios
+
+#### Exercício 1
+Crie um vetor com 30 números inteiros
+
+#### Exercício 2
+Crie uma matriz com 4 linhas e 4 colunas preenchida com números inteiros
+
+#### Exercício 3
+Crie uma lista unindo o vetor e matriz criados anteriormente
+
+#### Exercício 4
+Usando a função read.table() leia o arquivo do link abaixo para uma dataframe http://data.princeton.edu/wws509/datasets/effort.dat
+
+# Exercício 5 - Transforme o dataframe anterior, em um dataframe nomeado com os seguintes labels:
+# c("config", "esfc", "chang")
+
+# Exercício 6 - Imprima na tela o dataframe iris, verifique quantas dimensões existem no dataframe iris e imprima um resumo do dataset
+
+# Exercício 7 - Crie um plot simples usando as duas primeiras colunas do dataframe iris
+
+# Exercício 8 - Usando a função subset, crie um novo dataframe com o conjunto de dados do dataframe iris em que Sepal.Length > 7
+# Dica: consulte o help para aprender como usar a função subset()
+
+# Exercícios 9 (Desafio) - Crie um dataframe que seja cópia do dataframe iris e usando a função slice(), divida o dataframe em um subset de 15 linhas
+# Dica 1: Você vai ter que instalar e carregar o pacote dplyr
+# Dica 2: Consulte o help para aprender como usar a função slice()
+
+# Exercícios 10 - Use a função filter no seu novo dataframe criado no item anterior e retorne apenas valores em que Sepal.Length > 6
+# Dica: Use o RSiteSearch para aprender como usar a função filter
+
+
+#### Resolução de Exercícios
+##### 01
+```{r}
+vec30 <- c(1:30)
+vec30
+```
+
+##### 02
+```{r}
+mat <- matrix(c(27:30), nr=2)
+mat
+```
+
+
+#### 03
+```{r}
+lista1 <- list(cbind(mat, matrix(vec30, nr=2)))
+lista1
+```
+
+#### 04
+```{r}
+dados1 <- read.table('http://data.princeton.edu/wws509/datasets/effort.dat')
+head(dados1)
+class(dados1)
+```
+#### 05
+```{r}
+colnames(dados1) <- c("config", "esfc", "chang")
+dados1
+```
+
+#### 06
+View(iris)
+
+
+
+
+
+
+
 
 
