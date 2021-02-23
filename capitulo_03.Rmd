@@ -2,18 +2,20 @@
 title: "capitulo_03"
 author: "Wllyssys"
 date: "05/02/2021"
-output: html_document
+output: 
+  html_document:
+    theme: paper
+    toc: true
+    toc_depth: 5
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
 
-```
-
-# Capítulo 3.1 - Fatores
+## 3A Fatores
+### 3A1 Criando fatores
 ```{r}
 vec1 <- c("Macho","Femea","Femea","Macho","Macho")
 vec1
@@ -23,9 +25,9 @@ class(vec1)
 class(fac_vec1)
 ```
 
-# Variáveis categóricas nominais
-# Não existe uma ordem implícita
+### 3A2 Variáveis categóricas nominais
 ```{r}
+# Não existe uma ordem implícita
 animais <- c("Zebra", "Pantera", "Rinoceronte", "Macaco", "Tigre")
 animais
 class(animais)
@@ -35,19 +37,16 @@ class(fac_animais)
 levels(fac_animais)
 ```
 
-
-# Variáveis categóricas ordinais
-# Possuem uma ordem natural
+### 3A3 Variáveis categóricas ordinais
 ```{r}
+# Possuem uma ordem natural
 grad <- c("Mestrado", "Doutorado", "Bacharelado", "Mestrado", "Mestrado")
 grad
 fac_grad <- factor(grad, order = TRUE, levels = c("Doutorado", "Mestrado", "Bacharelado"))
 fac_grad
 levels(fac_grad)
-```
 
 # Sumarizar os dados fornece uma visão geral sobre o conteúdo das variáveis
-```{r}
 summary(fac_grad)
 summary(grad)
 
@@ -59,10 +58,9 @@ levels(fac_vec2) <- c("Femea", "Macho")
 fac_vec2
 summary(fac_vec2)
 summary(vec2)
-```
+
 
 # Mais exemplos
-```{r}
 data = c(1,2,2,3,1,2,3,3,1,2,3,3,1)
 fdata = factor(data)
 fdata
@@ -72,23 +70,20 @@ rdata = factor(data, labels = c("I","II","III"))
 rdata
 ```
 
-# Fatores Não-Ordenados
+
+### Fatores Não-Ordenados
 ```{r}
 set1 <- c("AA", "B", "BA", "CC", "CA", "AA", "BA", "CC", "CC")
 set1
-```
 
 # Transformando os dados. 
 # R apenas criou os níveis, o que não significa que exista uma hierarquia.
-```{r}
 f.set1 <- factor(set1)
 f.set1
 class(f.set1)
 is.ordered(f.set1)
-```
 
 # Fatores Ordenados
-```{r}
 o.set1 <- factor(set1, 
                  levels = c("CA", "BA", "AA", "CC", "B"), 
                  ordered = TRUE)
@@ -99,45 +94,284 @@ is.ordered(o.set1)
 as.numeric(o.set1)
 table(o.set1)
 
-```
 
 # Fatores e Dataframes
-```{r}
 df <- read.csv2("bases/etnias.csv", sep = ',')
 View(df)
-```
+
 
 # Variáveis do tipo fator
-```{r}
 str(df)
-```
 
 # Níveis dos fatores
 # Internamente, o R armazena valores inteiros e faz um mapeamento para as strings (em ordem alfabética)
 # e agrupa as estatísticas por níveis. Agora, se fizermos sumarização de estatísticas, é possível visualizar 
 # a contabilização para cada categoria
-```{r}
 levels(df$Etnia)
 summary(df$Etnia)
-summary(df$Idade)
-```
+
 
 # Plot
 # Agora se fizermos um plot, temos um boxplot para estas variáveis categóricas
-```{r eval=FALSE}
-plot(df$Idade~df$Etnia, xlab = 'Etnia', ylab = 'Idade', main = 'Idade por Etnia')
-```
+# TODO : corrigir - plot(df$Idade~df$Etnia, xlab = 'Etnia', ylab = 'Idade', main = 'Idade por Etnia')
+
 
 # Regressão
-```{r}
 summary(lm(Idade~Etnia, data = df))
-```
 
 # Convertendo uma coluna em variável categórica. Isso criará um fator não-ordenado
-```{r}
 df
 str(df)
 df$Estado_Civil.cat <- factor(df$Estado_Civil, labels = c("Solteiro", "Casado", "Divorciado"))
 df
 str(df)
 ```
+
+### 3.4 Fatores e Dataframes
+
+```{r}
+# Níveis dos fatores
+# Internamente, o R armazena valores inteiros e faz um mapeamento para as strings (em ordem alfabética)
+# e agrupa as estatísticas por níveis.
+
+# Criando vetores
+vec1 <- c(1001, 1002, 1003, 1004, 1005)
+vec2 <- c(0, 1, 1, 0, 2)
+vec3 <- c('Verde','Laranja','Azul','Laranja','Verde')
+
+# Unindo os vetores em um dataframe
+df <- data.frame(vec1, vec2, vec3)
+df
+
+# Verificando que o R categorizou a última coluna como fator
+str(df)
+
+# Verificando os níveis do fator. Perceba que os níveis estão categorizados em ordem alfabética
+levels(df$vec3)
+
+# Criando uma outra coluna e atribuindo labels
+df$cat1 <- factor(df$vec3, labels = c("cor2", "cor1", "cor3"))
+df
+
+# Internamente, os fatores são registrados como inteiros, mas a ordenação segue a ordem alfabética
+# das strings
+str(df)
+
+# Veja como foi feita a atribuição:
+# Azul = cor2
+# Laranja = cor1
+# Verde = cor3
+# Ou seja, os vetores com os labels, seguiram a ordem alfabética dos níveis classificados pelo R
+
+# Criando uma outra coluna e atribuindo labels
+# Ao aplicarmos a função factor() a coluna vec2, internamente o R classificou em ordem alfabética
+# e quando atribuímos os labels, foi feita a associação.
+df$cat2 <- factor(df$vec2, labels = c("Divorciado", "Casado", "Solteiro"))
+df
+str(df)
+levels(df$cat2)
+```
+### 3.5 Estruturas de Controle
+
+#### IF/ELSE
+```{r}
+# If-else
+x = 25
+if (x < 30) 
+  {"Este número é menor que 30"}
+
+
+# Chaves não são obrigatórios, mas altamente recomendados
+if (x < 30) 
+  "Este número é menor que 30"
+
+
+# Else
+if (x < 7) {
+  "Este número é menor que 7"
+} else {
+  "Este número não é menor que 7"
+  }
+
+
+# Comandos podem ser ainhados
+x = 7
+if (x < 7) {
+  "Este número é menor que 7"
+} else if(x == 7) {
+  "Este é o número 7"
+}else{
+  "Este número não é menor que 7"
+}
+
+
+# Ifelse
+x = 5
+ifelse (x < 6, "Correto!", NA)
+
+x = 9
+ifelse (x < 6, "Correto!", NA)
+
+
+# Expressões ifelse aninhadas
+x = c(7,5,4)
+ifelse(x < 5, "Menor que 5", 
+       ifelse(x == 5, "Igual a 5", "Maior que 5"))
+
+
+# Estruturas if dentro de funções
+func1 <- function(x,y){
+  ifelse(y < 7, x + y, "Não encontrado")
+}
+
+func1(4,2)
+func1(40,7)
+```
+
+### Laços
+```{r}
+### Rep
+rep(rnorm(10), 5)
+
+
+#### Repeat
+x = 1
+repeat {
+  x = x + 3
+  if (x > 99)
+    break
+  print(x)}
+
+
+# Loop For
+for (i in 1:20) {print(i)}
+for (q in rnorm(10)) {print(q)}
+
+
+# Ignora alguns elementos dentro do loop
+for(i in 1:22){
+  if(i == 13 | i == 15)
+    next
+  print (i)}
+
+
+# Interromper o loop
+for(i in 1:22){
+  if(i == 13)
+    break
+  print (i)}
+
+
+# Loop While
+x = 1
+while(x < 5){
+  x = x + 1
+  print(x)
+}
+
+# O loop while não será executado
+y = 6
+while(y < 5){
+  y = y+10
+  print(y)
+}
+```
+
+### 3.6 Funções
+```{r}
+# Help
+#?sample
+#args(sample)
+#args(mean)
+#args(sd)
+```
+
+### Funções Built-in
+```{r}
+abs(-43)
+sum(c(1:5))
+mean(c(1:5))
+round(c(1.1:5.8))
+rev(c(1:5))
+seq(1:5)
+sort(rev(c(1:5)))
+append(c(1:5), 6)
+
+vec1 <- c(1.5, 2.5, 8.4, 3.7, 6.3)
+vec2 <- rev(vec1)
+vec2
+```
+
+### Funções dentro de funções
+```{r}
+plot(rnorm(10))
+mean(c(abs(vec1), abs(vec2)))
+
+
+# Criando funções
+myfunc <- function(x) { x + x }
+myfunc(10)
+class(myfunc)
+
+myfunc2 <- function(a, b) {
+  valor = a ^ b
+  print(valor)
+}
+myfunc2(3, 2)
+
+jogando_dados <- function() {
+  num <- sample(1:6, size = 1) #Local
+  num
+}
+
+jogando_dados()
+
+
+# Escopo
+# print(num)
+# Error in print(num) : objeto 'num' não encontrado
+num <- c(1:6)
+num #Global
+```
+
+# Funções sem número definido de argumentos
+```{r}
+vec1 <- (10:13)
+vec2 <- c("a", "b", "c", "d")
+vec3 <- c(6.5, 9.2, 11.9, 5.1)
+
+myfunc3 <- function(...){
+  df = data.frame(cbind(...))
+  print(df)
+}
+
+myfunc3(vec1)
+
+myfunc3(vec2, vec3)
+
+myfunc3(vec1, vec2, vec3)
+
+
+# Funções Built-in - Não tente recriar a roda
+# Comparação de eficiência entre função vetorizada e função "vetorizada no R"
+
+x <- 1:10000000
+
+# Função que calcula a raiz quadrada de cada elemento de um vetor de números
+meu_sqrt <- function(numeros) {
+  resp <- numeric(length(numeros))
+  for(i in seq_along(numeros)) {
+    resp[i] <- sqrt(numeros[i])
+  }
+  return(resp)
+}
+
+
+system.time(x2a <- meu_sqrt(x))
+
+system.time(x2b <- sqrt(x))
+
+# Sua máquina pode apresentar resultado diferente por conta da precisão de cálculo do processador.
+identical(x2a, x2b)
+```
+
