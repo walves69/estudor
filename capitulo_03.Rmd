@@ -1,32 +1,17 @@
----
-title: "capitulo_03"
-author: "Wllyssys"
-date: "05/02/2021"
-output: 
-  html_document:
-    theme: paper
-    toc: true
-    toc_depth: 5
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
 
 
-## 3A Fatores
-### 3A1 Criando fatores
-```{r}
+# 3 Linguagem R - Fatores, Estruturas de Controle e Funções
+## 3A Fatores e Fatores Ordenados
+```{r eval=FALSE}
+
 vec1 <- c("Macho","Femea","Femea","Macho","Macho")
 vec1
 fac_vec1 <- factor(vec1)
 fac_vec1
 class(vec1)
 class(fac_vec1)
-```
 
-### 3A2 Variáveis categóricas nominais
-```{r}
+# Variáveis categóricas nominais
 # Não existe uma ordem implícita
 animais <- c("Zebra", "Pantera", "Rinoceronte", "Macaco", "Tigre")
 animais
@@ -35,10 +20,8 @@ fac_animais <- factor(animais)
 fac_animais
 class(fac_animais)
 levels(fac_animais)
-```
 
-### 3A3 Variáveis categóricas ordinais
-```{r}
+# Variáveis categóricas ordinais
 # Possuem uma ordem natural
 grad <- c("Mestrado", "Doutorado", "Bacharelado", "Mestrado", "Mestrado")
 grad
@@ -68,11 +51,8 @@ fdata
 
 rdata = factor(data, labels = c("I","II","III"))
 rdata
-```
 
-
-### Fatores Não-Ordenados
-```{r}
+# Fatores Não-Ordenados
 set1 <- c("AA", "B", "BA", "CC", "CA", "AA", "BA", "CC", "CC")
 set1
 
@@ -96,7 +76,7 @@ table(o.set1)
 
 
 # Fatores e Dataframes
-df <- read.csv2("bases/etnias.csv", sep = ',')
+df <- read.csv2("etnias.csv", sep = ',')
 View(df)
 
 
@@ -113,7 +93,7 @@ summary(df$Etnia)
 
 # Plot
 # Agora se fizermos um plot, temos um boxplot para estas variáveis categóricas
-# TODO : corrigir - plot(df$Idade~df$Etnia, xlab = 'Etnia', ylab = 'Idade', main = 'Idade por Etnia')
+plot(df$Idade~df$Etnia, xlab = 'Etnia', ylab = 'Idade', main = 'Idade por Etnia')
 
 
 # Regressão
@@ -125,11 +105,14 @@ str(df)
 df$Estado_Civil.cat <- factor(df$Estado_Civil, labels = c("Solteiro", "Casado", "Divorciado"))
 df
 str(df)
+
+
+
+
 ```
+## 3B Fatores Dataframes
+```{r eval=FALSE}
 
-### 3.4 Fatores e Dataframes
-
-```{r}
 # Níveis dos fatores
 # Internamente, o R armazena valores inteiros e faz um mapeamento para as strings (em ordem alfabética)
 # e agrupa as estatísticas por níveis.
@@ -170,11 +153,25 @@ df$cat2 <- factor(df$vec2, labels = c("Divorciado", "Casado", "Solteiro"))
 df
 str(df)
 levels(df$cat2)
-```
-### 3.5 Estruturas de Controle
 
-#### IF/ELSE
-```{r}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+## 3C Estruturas de Controle
+```{r eval=FALSE}
+
 # If-else
 x = 25
 if (x < 30) 
@@ -226,15 +223,13 @@ func1 <- function(x,y){
 
 func1(4,2)
 func1(40,7)
-```
 
-### Laços
-```{r}
-### Rep
+
+# Rep
 rep(rnorm(10), 5)
 
 
-#### Repeat
+# Repeat
 x = 1
 repeat {
   x = x + 3
@@ -275,19 +270,22 @@ while(y < 5){
   y = y+10
   print(y)
 }
-```
 
-### 3.6 Funções
-```{r}
+
+
+
+```
+## 3D Funções
+```{r eval=FALSE}
+
 # Help
-#?sample
-#args(sample)
-#args(mean)
-#args(sd)
-```
+?sample
+args(sample)
+args(mean)
+args(sd)
 
-### Funções Built-in
-```{r}
+
+# Funções Built-in
 abs(-43)
 sum(c(1:5))
 mean(c(1:5))
@@ -300,10 +298,9 @@ append(c(1:5), 6)
 vec1 <- c(1.5, 2.5, 8.4, 3.7, 6.3)
 vec2 <- rev(vec1)
 vec2
-```
 
-### Funções dentro de funções
-```{r}
+
+# Funções dentro de funções
 plot(rnorm(10))
 mean(c(abs(vec1), abs(vec2)))
 
@@ -328,14 +325,12 @@ jogando_dados()
 
 
 # Escopo
-# print(num)
-# Error in print(num) : objeto 'num' não encontrado
+print(num)
 num <- c(1:6)
 num #Global
-```
+
 
 # Funções sem número definido de argumentos
-```{r}
 vec1 <- (10:13)
 vec2 <- c("a", "b", "c", "d")
 vec3 <- c(6.5, 9.2, 11.9, 5.1)
@@ -373,5 +368,616 @@ system.time(x2b <- sqrt(x))
 
 # Sua máquina pode apresentar resultado diferente por conta da precisão de cálculo do processador.
 identical(x2a, x2b)
-```
 
+
+
+
+```
+## 3E Família Apply
+```{r eval=FALSE}
+
+#  apply() - arrays e matrizes
+# tapply() - os vetores podem ser divididos em diferentes subsets
+# lapply() - vetores e listas
+# sapply() - versão amigável da lapply
+# vapply() - similar a sapply, com valor de retorno modificado
+# rapply() - similar a lapply()
+# eapply() - gera uma lista
+# mapply() - similar a sapply, multivariada
+# by
+
+# Se você estiver trabalhando com os objetos: 
+
+# list, numeric, character (list/vecor) => sapply ou lapply
+# matrix, data.frame (agregação por coluna) => by / tapply
+# Operações por linha ou operações específicas => apply
+
+# Usando um Loop
+lista1 <- list(a = (1:20), b = (35:67))
+
+# Calculando o total de cada elemento da lista com loop for
+valor_a = 0
+valor_b = 0
+
+for (i in lista1$a){
+  valor_a = valor_a + i 
+}
+
+for (j in lista1$b){
+  valor_b = valor_b + j
+}
+
+print(valor_a)
+print(valor_b)
+
+# Calculando cada elemento da lista com sapply
+?sapply
+sapply(lista1, sum)
+
+# Aplicando funções com sapply
+sapply(lista1, mean)
+
+
+# apply()
+?apply
+
+x <- matrix(c(20, 13, 65, 32, 45, 12, 76, 49, 82), nr = 3, byrow = T)
+x
+
+apply(x, mean)
+apply(x, 1, mean)
+apply(x, 2, mean)
+apply(x, 1, plot)
+
+resultapply <- apply(x, 1, mean)
+resultapply
+
+# Aplicando apply() a um Dataframe
+escola <- data.frame(Aluno = c('Bob', 'Tereza', 'Marta', 'Felipe', 'Zacarias', 'Elton'),
+                     Fisica = c(91, 82, 75, 97, 62, 74),
+                     Matematica = c(99, 100, 86, 92, 91, 87),
+                     Quimica = c(56, 72, 49, 68, 59, 77))
+
+escola
+escola$Matematica
+
+# Calculando a média por aluno
+escola$Media = NA
+escola
+
+escola$Media = apply(escola[,c(2, 3, 4)], 1, mean)
+escola
+escola$Media = round(escola$Media)
+escola
+
+
+# tapply()
+?gl
+tabela_basquete <-
+  data.frame(equipe = gl(5, 5, labels = paste("Equipe", LETTERS[1:5])),
+             jogador = sample(letters, 25),
+             num_cestas = floor(runif(25, min=0, max=50)))
+
+View(tabela_basquete)
+summary(tabela_basquete)
+
+# Como calcular o total de cestas por Equipe?
+
+# tapply() vs sqldf
+install.packages('sqldf')
+library(sqldf)
+
+sqldf("select equipe, sum(num_cestas) from tabela_basquete group by equipe")
+
+?tapply
+tapply(tabela_basquete$num_cestas, tabela_basquete$equipe, sum)
+tapply(tabela_basquete$num_cestas, tabela_basquete$equipe, mean)
+
+# by
+?by
+
+dat <- data.frame(species=c(rep(c(1,2,3), each=5)), 
+                  petal.length=c(rnorm(5, 4.5, 1), 
+                                 rnorm(5, 4.5, 1), 
+                                 rnorm(5, 5.5, 1)), 
+                  petal.width=c(rnorm(5, 2.5, 1), 
+                                rnorm(5, 2.5, 1), 
+                                rnorm(5, 4, 1)))
+
+dat$species <- factor(dat$species)
+View(dat)
+
+by(dat, dat$species, function(x){
+  # calcular o comprimento médio da pétala para cada espécie
+  mean.pl <- mean(x$petal.length)
+})
+
+
+# lapply()
+?lapply
+
+lista1 <- list(a = (1:10), b = (45:77))
+lista1
+lapply(lista1, sum)
+sapply(lista1, sum)
+
+
+# vapply()
+?vapply
+
+# A função fivenum() retorna 5 estatísticas do conjunto de dados: (minimum, lower-hinge, median, upper-hinge, maximum) 
+# https://stat.ethz.ch/R-manual/R-patched/library/stats/html/fivenum.html
+vapply(lista1, 
+       fivenum, 
+       c(Min. = 0, 
+         "1stQu." = 0, 
+         Median = 0, 
+         "3rd Qu." = 0, 
+         Max = 0))
+
+
+# replicate
+?replicate
+replicate(7, runif(10))
+
+
+# mapply()
+?mapply
+mapply(rep, 1:4, 4:1)
+
+
+# rapply()
+?rapply
+
+lista2 <- list(a = c(1:5), b = c(6:10))
+lista2
+
+rapply(lista2, sum)
+rapply(lista2, sum, how = "list")
+
+
+
+
+
+
+
+
+```
+## 3F Funções Especiais
+```{r eval=FALSE}
+
+# unlist()
+# Produz um vetor com os elementos da lista
+?unlist
+
+lst1 <- list(6, "b", 15)
+lst1
+class(lst1)
+
+unlist(lst1)
+vec1 <- unlist(lst1)
+class(vec1)
+vec1
+
+lst2 <- list(v1 = 6, v2 = list(381, 2190), v3 = c(30, 217))
+lst2
+
+unlist(lst2)
+
+mean(unlist(lst2))
+round(mean(unlist(lst2)))
+
+
+# do.call()
+# Executa uma função em um objeto
+# *** ATENÇÃO ***
+# As funções da família apply aplicam uma função a cada elemento de um objeto (substitui um loop)
+# A função do.call aplica uma função ao objeto inteiro e não a cada elemento individualmente
+?do.call
+
+data <- list()
+N <- 100
+
+for (n in 1:N) {
+  data[[n]] = data.frame(index = n, char = sample(letters, 1), z = rnorm(1))
+}
+
+head(data)
+
+do.call(rbind, data)
+class(do.call(rbind, data))
+
+# lapply() x do.call()
+y <- list(1:3, 4:6, 7:9)
+y
+
+lapply(y, sum)
+do.call(sum, y)
+
+
+# O resultado da função lapply() pode ser obtido de outras formas
+# Pacote plyr
+
+install.packages('plyr')
+library(plyr)
+
+y <- list(1:3, 4:6, 7:9)
+y
+
+ldply(y, sum)
+
+
+# strsplit()
+# Divide uma string ou vetor de caracteres
+
+texto <- "Data Science Academy"
+strsplit(texto, " ")
+
+texto <- "Data Science Academy"
+strsplit(texto, "")
+
+
+dates <- c("1998-05-23", "2008-12-30", "2009-11-29")
+temp  <- strsplit(dates, "-")
+temp
+class(temp)
+
+# Transforma a lista em matriz, fazendo antes um unlist()
+matrix(unlist(temp), ncol = 3, byrow = TRUE)
+
+Names <- c("Brin, Sergey", "Page, Larry",
+           "Dorsey, Jack", "Glass, Noah",
+            "Williams, Evan", "Stone, Biz")
+
+temp <- strsplit(Names, ", ")
+temp
+
+
+frase <- "Muitas vezes temos que repetir algo diversas vezes e essas diversas vezes parecem algo estranho"
+palavras <- strsplit(frase, " ")[[1]]
+palavras
+unique(tolower(palavras))
+
+
+# strplit() com dataframes
+antes = data.frame(attr = c(1,30,4,6), tipo = c('pao_e_agua','pao_e_agua_2'))
+antes
+strsplit(as.character(antes$tipo),'_e_')
+
+
+library(stringr)
+str_split_fixed(antes$tipo, "_e_", 2)
+
+
+# Usando do.call()
+antes = data.frame(attr = c(1,30,4,6), tipo = c('pao_e_agua','pao_e_agua_2'))
+antes
+depois <- strsplit(as.character(antes$tipo),'_e_')
+depois
+do.call(rbind, depois)
+
+# Usando dplyr e tidyr
+install.packages("dplyr")
+install.packages("tidyr")
+library(dplyr)
+library(tidyr)
+
+antes <- data.frame(
+  attr = c(1, 30 ,4 ,6 ), 
+  tipo = c('pao_e_agua','pao_e_agua_2')
+)
+
+antes %>%
+  separate(tipo, c("pao", "agua"), "_e_")
+
+
+
+
+```
+## 3G Pacote e Instalação de Pacotes
+```{r eval=FALSE}
+
+# De onde vem as funções? Pacotes (conjuntos de funções)
+# Quando você inicia o RStudio, alguns pacotes são 
+# carregados por padrão
+
+# Busca os pacotes carregados
+search()
+
+# Instala e carrega os pacotes
+install.packages(c("ggvis", "tm", "dplyr"))
+library(ggvis)
+library(tm)
+require(dplyr)
+
+search()
+?require
+detach(package:dplyr)
+
+# Lista o conteúdo dos pacotes
+?ls
+ls(pos = "package:tm")
+ls(getNamespace("tm"), all.names = TRUE)
+
+# Lista as funções de um pacote
+lsf.str("package:tm")
+lsf.str("package:ggplot2")
+library(ggplot2)
+lsf.str("package:ggplot2")
+
+
+# R possui um conjunto de datasets preinstalados. 
+
+library(MASS)
+data()
+
+?lynx
+head(lynx)
+head(iris)
+tail(lynx)
+summary(lynx)
+
+plot(lynx)
+hist(lynx)
+head(iris)
+iris$Sepal.Length
+sum(Sepal.Length)
+
+?attach
+attach(iris)
+sum(Sepal.Length)
+
+```
+## 3H Espressões Regulares
+```{r eval=FALSE}
+
+# grep(pattern, x, ignore.case = FALSE, perl = FALSE, value = FALSE, fixed = FALSE, useBytes = FALSE, invert = FALSE)
+# grepl(pattern, x, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE)
+# sub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE)
+# gsub(pattern, replacement, x, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE)
+# regexpr(pattern, text, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE)
+# gregexpr(pattern, text, ignore.case = FALSE, perl = FALSE, fixed = FALSE, useBytes = FALSE)
+
+str <- c("Expressões", "regulares", "em linguagem R", 
+         "permitem a busca de padrões", "e exploração de textos",
+         "podemos buscar padrões em dígitos",
+         "como por exemplo",
+         "10992451280")
+
+length(str)
+str
+
+# grep()
+?grep
+grep("ex", str, value = F)
+grep("ex", str, value = T)
+grep("\\d", str, value = F)
+grep("\\d", str, value = T)
+
+
+# grepl()
+?grepl
+grepl("\\d+", str)
+grepl("\\D", str)
+
+
+# gsub
+?gsub
+gsub("em", "***", str)
+gsub("ex", "EX", str, ignore.case = T)
+
+
+# sub()
+sub("em", "EM", str)
+
+
+# regexpr()
+frase <- "Isso é uma string."
+regexpr(pattern = "u", frase)
+
+
+# gregexpr()
+gregexpr(pattern = "u", frase)
+
+
+
+str2 <- c("2678 é maior que 45 - @???!§$",
+          "Vamos escrever 14 scripts R")
+
+str2
+
+# gsub()
+gsub("\\d", "", str2)
+gsub("\\D", "", str2)
+gsub("\\s", "", str2)
+gsub("[iot]", "Q", str2)
+gsub("[[:punct:]]", "", str2)
+
+
+
+
+
+
+
+```
+## 3I Trabalhando com Datas
+```{r eval=FALSE}
+
+# Hora e Data do sistema
+hoje <- Sys.Date()
+hoje
+class(hoje)
+Sys.time()
+Sys.timezone()
+
+
+# Data - representada por Date
+# Armazenados como número de dias desde 1 de Janeiro de 1970
+
+# Time - representado por POSIXct
+# Armazenados como número de segundos desde 1 de Janeiro de 1970
+
+# Formatando Datas
+# %d: dia do mês em 2 dígitos (13)
+# %m: mês em 2 digitos (01)
+# %y: ano em 2 dígitos (82)
+# %Y: ano em 4 dígitos (1982)
+# %A: dia da semana (Friday)
+# %a: dia da semana abreviado (Fri)
+# %B: mês (July)
+# %b: mês abreviado (Jul)
+
+
+# Formatando hora
+# %H: hora (00-23)
+# %M: minuto
+# %S: segundo
+# %T: formado reduzido para %H:%M:%S
+?strptime
+
+
+# Formatando a saída - as.Date()
+as.Date("2018-06-28")
+as.Date("Jun-28-18", format = "%b-%d-%y")
+as.Date("28 June, 2018", format = "%d %B, %Y")
+
+
+# Função format()
+Sys.Date()
+?format
+format(Sys.Date(), format = "%d %B, %Y")
+format(Sys.Date(), format = "Hoje é %A!")
+
+
+# Convertendo Datas - as.POSIXct
+date1 <- "Jun 13, '96 hours:23 minutes:01 seconds:45"
+date1_convert <- as.POSIXct(date1, format = "%B %d, '%y hours:%H minutes:%M seconds:%S")
+date1_convert
+
+
+# Operações com Datas
+data_de_hoje <- as.Date("2016-06-25", format = "%Y-%m-%d")
+data_de_hoje
+data_de_hoje + 1
+
+my_time <- as.POSIXct("2016-05-14 11:24:134")
+my_time
+my_time + 1
+
+data_de_hoje - as.Date(my_time)
+data_de_hoje - my_time
+
+
+# Convertendo Data em formato específico
+# O vetor de números pode representar o número de dias, horas ou minutos (de acordo com o que você quer converter)
+# A Linguagem R considera o ponto de início a data de 01 de Janeiro de 1970 e contabiliza o total
+# de horas, minutos ou segundos, aquilo que o vetor numérico representar
+dts = c(1127056501,1104295502,1129233601,1113547501,1119826801,1132519502,1125298801,1113289201)
+mydates = dts
+
+# POSIXct, armazena os segundos desde uma data específica, 
+# convertendo os valores numéricos (que podem representar horas, minutos ou segundos) desde 01 de Janeiro de 1970
+# POSIXt é a classe principal e POSIXct e POSIXlt são subclasses. 
+# Poderíamos usar aqui apenas POSIXct, que é a subclasse (mas não podemos usar apenas a classe principal)
+class(mydates) = c('POSIXt','POSIXct')
+mydates
+class(mydates)
+
+mydates = structure(dts, class = c('POSIXt','POSIXct'))
+mydates
+
+
+# Função ISODate
+b1 = ISOdate(2011,3,23)
+b1
+b2 = ISOdate(2012,9,19)
+b2
+b2 - b1
+
+difftime(b2, b1, units = 'weeks')
+
+
+# Pacote lubridate
+?lubridate
+install.packages("lubridate")
+require(lubridate)
+
+ymd("20180604") 
+mdy("06-04-2018") 
+dmy("04/06/2018")
+
+chegada <- ymd_hms("2016-06-04 12:00:00", tz = "Pacific/Auckland")
+partida <- ymd_hms("2011-08-10 14:00:00", tz = "Pacific/Auckland")
+
+chegada
+partida
+
+second(chegada)
+second(chegada) <- 23
+chegada
+wday(chegada)
+wday(chegada, label = TRUE)
+class(chegada)
+
+# Cria um objeto que especifica a data de início e data de fim
+interval(chegada, partida)
+
+
+tm1.lub <- ymd_hms("2020-05-24 23:55:26")
+tm1.lub
+
+tm2.lub <- mdy_hm("05/25/20 08:32")
+tm2.lub
+
+year(tm1.lub)
+week(tm1.lub)
+
+tm1.dechr <- hour(tm1.lub) + minute(tm1.lub)/60 + second(tm1.lub)/3600
+tm1.dechr
+force_tz(tm1.lub, "Pacific/Auckland")
+
+
+# Gerando um dataframe de datas
+sono <- data.frame(bed.time = ymd_hms("2013-09-01 23:05:24", "2013-09-02 22:51:09", 
+                                       "2013-09-04 00:09:16", "2013-09-04 23:43:31", "2013-09-06 00:17:41", "2013-09-06 22:42:27", 
+                                       "2013-09-08 00:22:27"), rise.time = ymd_hms("2013-09-02 08:03:29", "2013-09-03 07:34:21", 
+                                                                                   "2013-09-04 07:45:06", "2013-09-05 07:07:17", "2013-09-06 08:17:13", "2013-09-07 06:52:11", 
+                                                                                   "2013-09-08 07:15:19"), sleep.time = dhours(c(6.74, 7.92, 7.01, 6.23, 6.34, 7.42, 6.45)))
+sono
+sono$eficiencia <- round(sono$sleep.time/(sono$rise.time - sono$bed.time) * 100, 1)
+sono
+
+
+# Gerando um plot a partir de datas
+par(mar = c(5, 4, 4, 4))
+plot(round_date(sono$rise.time, "day"), sono$eficiencia, type = "o", col = "blue", xlab = "Manhã", ylab = NA)
+par(new = TRUE)
+plot(round_date(sono$rise.time, "day"), sono$sleep.time/3600, type = "o", col = "red", axes = FALSE, ylab = NA, xlab = NA)
+axis(side = 4)
+mtext(side = 4, line = 2.5, col = "red", "Duração do Sono")
+mtext(side = 2, line = 2.5, col = "blue", "Eficiência do Sono")
+
+
+
+```
+## 3J Operadores Atrib
+```{r eval=FALSE}
+
+vec1 = 1:4
+vec2 <- 1:4
+
+class(vec1)
+class(vec2)
+
+typeof(vec1)
+typeof(vec2)
+
+
+mean(x = 1:10)
+x   
+
+mean(x <- 1:10)
+x 
+
+
+```
